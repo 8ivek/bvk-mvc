@@ -20,8 +20,20 @@ class Router
      * @param string $route The route URL
      * @param array $params Parameters (controller, action, etc.)
      */
-    public function add(string $route, array $params): void
+    public function add(string $route, array $params = []): void
     {
+        // Convert the route to a regular expression
+        $route = preg_replace('/\//', '\\/', $route);
+
+        // convert variables eg {controller}
+        $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
+
+        // convert variables with custom regular expression eg {id:\d+}
+        $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
+
+        // add start and end delimiters, and case insensitive flag
+        $route = '/^'. $route. '$/i';
+
         $this->routes[$route] = $params;
     }
 
@@ -44,11 +56,18 @@ class Router
     public function match(string $url): bool
     {
         foreach ($this->routes as $route => $params) {
-            if ($url === $route) {
+            if (preg_match($route, $url, $matches)) {
+                foreach ($matches as $key => $match) {
+                    if (is_string($key)) {
+                        $params[$key] = $match;
+                    }
+                }
+
                 $this->params = $params;
                 return true;
             }
         }
+
         return false;
     }
 
