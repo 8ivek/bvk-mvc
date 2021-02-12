@@ -48,6 +48,57 @@ class Router
     }
 
     /**
+     *
+     * @param string $url
+     */
+    public function dispatch(string $url): void
+    {
+        if ($this->match($url)) {
+            $controller = $this->params['controller'];
+            $controller = $this->convertToStudlyCaps($controller);
+
+            if (class_exists($controller)) {
+                $controller_object = new $controller();
+
+                $action = $this->params['action'];
+                $action = $this->convertToCamelCase($action);
+
+                if (is_callable([$controller_object, $action])) {
+                    $controller_object->$action();
+                } else {
+                    echo "Method $action (in controller $controller) not found";
+                }
+            } else {
+                echo "Controller class $controller not found";
+            }
+        }
+    }
+
+    /**
+     * Convert the string with hypens to StudlyCaps or PascalCase,
+     * eg: get-posts => GetPosts
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function convertToStudlyCaps(string $string): string
+    {
+        return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
+    }
+
+    /**
+     * Convert the string to camelCase,
+     * eg get-posts => getPosts
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function convertToCamelCase(string $string): string
+    {
+        return lcfirst($this->convertToStudlyCaps($string));
+    }
+
+    /**
      * Match the route to the routes in the routing table, setting the property if a route is found.
      *
      * @param string $url the route url
