@@ -54,13 +54,14 @@ class Router
      */
     public function dispatch(string $url): void
     {
+        $url = $this->removeQueryStringVariables($url);
         if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
             $controller = "App\Controllers\\$controller";
 
             if (class_exists($controller)) {
-                $controller_object = new $controller();
+                $controller_object = new $controller($this->params);
 
                 $action = $this->params['action'];
                 $action = $this->convertToCamelCase($action);
@@ -131,5 +132,23 @@ class Router
     public function getParams(): array
     {
         return $this->params;
+    }
+
+    /**
+     * presence of query string in url will make router not work so we are removing query string from url, we are assuming we won't be having and query string.
+     * @param $url
+     * @return string
+     */
+    protected function removeQueryStringVariables($url): string
+    {
+        if ($url !== '') {
+            $parts = explode('&', $url, 2);
+            if (strpos($parts[0], '=') === false) {
+                $url = $parts[0];
+            } else {
+                $url = '';
+            }
+        }
+        return $url;
     }
 }
