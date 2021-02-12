@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
-class Posts extends AbstractController
+use Core\Controller;
+
+class Posts extends Controller
 {
     public function indexAction()
     {

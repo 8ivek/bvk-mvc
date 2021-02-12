@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
-class Home extends AbstractController
+use Core\Controller;
+
+class Home extends Controller
 {
     public function indexAction()
     {

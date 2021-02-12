@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace Core;
 
-abstract class AbstractController
+abstract class Controller
 {
     /**
      * parameters from the matched route
