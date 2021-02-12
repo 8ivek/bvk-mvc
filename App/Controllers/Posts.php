@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class Posts extends AbstractController
 {
     public function index()

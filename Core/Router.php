@@ -1,5 +1,6 @@
 <?php
 
+namespace Core;
 
 class Router
 {
@@ -56,6 +57,7 @@ class Router
         if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
+            $controller = "App\Controllers\\$controller";
 
             if (class_exists($controller)) {
                 $controller_object = new $controller();
@@ -69,7 +71,7 @@ class Router
                     echo "Method $action (in controller $controller) not found";
                 }
             } else {
-                echo "Controller class $controller not found";
+                echo "Controllers class $controller not found";
             }
         }
     }
