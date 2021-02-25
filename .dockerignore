@@ -1,0 +1,6 @@
+.git
+.idea
+Docker
+*.md
+*.sql
+*.txt

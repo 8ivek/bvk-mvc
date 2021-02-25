@@ -4,12 +4,13 @@ Simplest MVC Framework for those who want to learn how MVC actually works
 
 minimum php version requirement: 7.4
 
-## run application
-```
-$ php -S localhost:8080 -t public public/index.php
-```
+## Common commands
+> docker-compose build
+> docker-compose up - d
+> docker-compose down
 
-browse localhost:8080
+alternative,
+> docker-compose up --build
 
 
 ### Message
