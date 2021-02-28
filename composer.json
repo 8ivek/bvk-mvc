@@ -1,11 +1,12 @@
 {
-    "require": {
-        "twig/twig": "^2.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Core\\": "Core/",
-            "App\\": "App/"
-        }
+  "require": {
+    "twig/twig": "^2.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "Core/",
+      "App\\": "App/"
     }
+  }
 }

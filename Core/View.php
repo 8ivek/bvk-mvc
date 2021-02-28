@@ -26,7 +26,7 @@ class View
             $template = $twig->load($template);
             echo $template->render($args);
         } catch (\Throwable $e) {
-            echo "Thrown an error " . $e;
+            echo "Thrown an error " . json_encode($e);
         }
     }
 }
