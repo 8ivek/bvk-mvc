@@ -30,7 +30,8 @@ class Home extends Controller
     public function PassVariablesAction()
     {
         $data = ['name' => 'Bivek', 'colors' => ['red', 'green', 'blue']];
-        View::render('PassVariables/index.php', $data);
+        // View::('PassVariables/index.php', $data);
+        View::renderTemplate('PassVariables/index.html', $data);
     }
 
     protected function before()

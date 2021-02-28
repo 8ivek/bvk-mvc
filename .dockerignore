@@ -4,3 +4,4 @@ Docker
 *.md
 *.sql
 *.txt
+vendor

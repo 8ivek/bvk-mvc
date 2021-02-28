@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Front controller
+ */
+
+require_once '../vendor/autoload.php';
+
+$loader = new Twig\Loader\FilesystemLoader('../App/Views');
+$twig = new Twig\Environment($loader, ['debug' => true]);
+
 spl_autoload_register(function ($class) {
     $root = dirname(__DIR__); // get the parent directory
     $file = $root . '/' . str_replace('\\', '/', $class) . '.php';

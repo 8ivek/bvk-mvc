@@ -14,4 +14,19 @@ class View
             echo "$file not found";
         }
     }
+
+    public static function renderTemplate($template, $args = [])
+    {
+        static $twig = null;
+        if ($twig === null) {
+            $loader = new \Twig\Loader\FilesystemLoader('../App/Views');
+            $twig = new \Twig\Environment($loader, ['debug' => true]);
+        }
+        try {
+            $template = $twig->load($template);
+            echo $template->render($args);
+        } catch (\Throwable $e) {
+            echo "Thrown an error " . $e;
+        }
+    }
 }
