@@ -3,13 +3,23 @@
 namespace App\Controllers;
 
 use Core\Controller;
+use Core\View;
 
 class Posts extends Controller
 {
     public function indexAction()
     {
-        echo "Hello from index action the Posts controller!";
-        echo '<p>Query string parameters: <pre>'. htmlspecialchars(print_r($_GET, true)). '</pre></p>';
+        $data = ['posts' => [
+            [
+                'title' => 'First post',
+                'description' => 'First post description',
+            ],
+            [
+                'title' => 'Second post',
+                'description' => 'Second post description',
+            ],
+        ]];
+        View::renderTemplate('Posts/index.html', $data);
     }
 
     public  function addNewAction()
