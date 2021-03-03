@@ -37,6 +37,27 @@ services:
     networks:
       - app-network
 
+  #MySQL Service
+  db:
+    image: mysql:5.5
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: bvk_mvc
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./Docker/mysql/dbdata/:/var/lib/mysql/
+      - ./Docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
 #Docker Networks
 networks:
   app-network:

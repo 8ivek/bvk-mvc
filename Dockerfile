@@ -29,14 +29,13 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install mysqli pdo pdo_mysql zip exif pcntl
 # RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # RUN docker-php-ext-install gd
-# RUN docker-php-ext-enable mysqli
 
 # install xdebug
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 # Install composer
-# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Add user for laravel application
 RUN groupadd -g 1000 www
