@@ -12,6 +12,12 @@ minimum php version requirement: 7.4
 alternative,
 > docker-compose up --build
 
+## Docker remove unused images
+> docker image prune
+> docker image prune -a
+
+## docker ssh inside app
+> docker exec -ti app sh
 
 ### Message
 <a href="https://bivek.ca" target="_blank" title="Contact Form">:love_letter:</a>
