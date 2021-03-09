@@ -6,7 +6,9 @@ minimum php version requirement: 7.4
 
 ## Common commands
 > docker-compose build
+> 
 > docker-compose up - d
+> 
 > docker-compose down
 
 alternative,
@@ -14,6 +16,7 @@ alternative,
 
 ## Docker remove unused images
 > docker image prune
+> 
 > docker image prune -a
 
 ## docker ssh inside app
