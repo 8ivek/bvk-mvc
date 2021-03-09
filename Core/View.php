@@ -4,6 +4,11 @@ namespace Core;
 
 class View
 {
+    /**
+     * @param $view
+     * @param array $args
+     * @throws \Exception
+     */
     public static function render($view, $args = [])
     {
         extract($args, EXTR_SKIP);
@@ -11,10 +16,15 @@ class View
         if (is_readable($file)) {
             require $file;
         } else {
-            echo "$file not found";
+            throw new \Exception("$file not found");
         }
     }
 
+    /**
+     * @param $template
+     * @param array $args
+     * @throws \Exception
+     */
     public static function renderTemplate($template, $args = [])
     {
         static $twig = null;
@@ -26,7 +36,7 @@ class View
             $template = $twig->load($template);
             echo $template->render($args);
         } catch (\Throwable $e) {
-            echo "Thrown an error " . json_encode($e);
+            throw new \Exception("Thrown an error: " . $e->getMessage());
         }
     }
 }

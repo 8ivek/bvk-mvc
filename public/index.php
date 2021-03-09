@@ -6,6 +6,12 @@
 
 require_once '../vendor/autoload.php';
 
+/**
+ * Error and Exception handling
+ */
+set_error_handler('Core\Error::errorHandler');
+set_exception_handler('Core\Error::exceptionHandler');
+
 $loader = new Twig\Loader\FilesystemLoader('../App/Views');
 $twig = new Twig\Environment($loader, ['debug' => true]);
 
