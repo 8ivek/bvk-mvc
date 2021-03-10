@@ -18,6 +18,8 @@ alternative,
 > docker image prune
 > 
 > docker image prune -a
+> 
+> docker image prune -af (verbose)
 
 ## docker ssh inside app
 > docker exec -ti app sh
