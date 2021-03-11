@@ -23,6 +23,10 @@ alternative,
 
 ## docker ssh inside app
 > docker exec -ti app sh
+> 
+> docker ps (list active containers)
+> 
+> docker inspect container_id (inspect inside container)
 
 ### Message
 <a href="https://bivek.ca" target="_blank" title="Contact Form">:love_letter:</a>

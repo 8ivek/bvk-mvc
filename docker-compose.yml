@@ -7,7 +7,7 @@ services:
       - db
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
     container_name: app
     restart: unless-stopped
     tty: true
@@ -42,7 +42,7 @@ services:
 
   #MySQL Service
   db:
-    image: mysql:5.5
+    image: mysql:5.7
     container_name: db
     restart: unless-stopped
     tty: true
@@ -56,7 +56,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
-      - ./docker/mysql/dbdata/:/var/lib/mysql/
+      - "./docker/mysql/dbdata/:/var/lib/mysql/"
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
@@ -67,5 +67,4 @@ networks:
     driver: bridge
 #Volumes
 volumes:
-  dbdata:
-    driver: local
+  dbdata: { driver: local }
