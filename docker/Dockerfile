@@ -3,9 +3,6 @@ FROM php:7.4-fpm
 # Set working directory
 WORKDIR /var/www
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -31,15 +28,15 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql zip exif pcntl
 # install xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
+# Install composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Add user for laravel application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
 COPY . /var/www
-
-# Run composer
-RUN /usr/local/bin/composer install --no-dev --prefer-source
 
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www

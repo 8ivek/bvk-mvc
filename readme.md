@@ -4,7 +4,10 @@ Simplest MVC Framework for those who want to learn how MVC actually works
 
 minimum php version requirement: 7.4
 
-## Common commands
+## install composer
+> docker-compose exec app composer install
+
+## docker common commands
 > docker-compose build
 > 
 > docker-compose up - d
@@ -14,7 +17,7 @@ minimum php version requirement: 7.4
 alternative,
 > docker-compose up --build
 
-## Docker remove unused images
+## docker remove unused images
 > docker image prune
 > 
 > docker image prune -a
