@@ -31,6 +31,12 @@ alternative,
 > 
 > docker inspect container_id (inspect inside container)
 
+## update docker db with db dump
+docker exec -i db mysql -uadmincha -psecret bvk_mvc < docker/mysql/data.sql
+
+## export database to local system
+docker exec db mysqldump -u admincha --password=secret bvk_mvc > db_from_docker.sql
+
 ## Test url
 https://localhost/info.php
 
