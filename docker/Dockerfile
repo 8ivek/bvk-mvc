@@ -1,7 +1,9 @@
-FROM php:8.0-fpm
+FROM php:8.0-apache
+LABEL maintainer="Bivek Joshi <bivek_j@yahoo.com>"
 
-# Set working directory
-WORKDIR /var/www
+COPY ./docker/conf/server.crt /etc/apache2/ssl/server.crt
+COPY ./docker/conf/server.key /etc/apache2/ssl/server.key
+COPY ./docker/conf/dev.conf /etc/apache2/sites-enabled/dev.conf
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -23,27 +25,18 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql zip exif pcntl
+RUN docker-php-ext-install mysqli pdo pdo_mysql zip mbstring exif pcntl
+RUN docker-php-ext-enable mysqli
 
 # install xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
 
-# Install composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# enable rewrite, ssl and restart apache2
+RUN a2enmod rewrite
+RUN a2enmod ssl
+RUN service apache2 restart
 
-# Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
-
-# Copy existing application directory contents
-COPY . /var/www
-
-# Copy existing application directory permissions
-COPY --chown=www:www . /var/www
-
-# Change current user to www
-USER www
-
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Change uid and gid of apache to docker user uid/gid
+RUN usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data

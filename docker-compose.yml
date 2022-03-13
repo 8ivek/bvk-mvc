@@ -1,63 +1,47 @@
-version: '3'
+version: '3.8'
 services:
 
   #PHP Service
   app:
-    depends_on:
-      - db
+    container_name: app
     build:
       context: .
       dockerfile: docker/Dockerfile
-    container_name: app
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "9000:9000"
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     environment:
       DB_HOST: db:3306
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     working_dir: /var/www
-    volumes:
-      - ./:/var/www
-      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - app-network
-
-  #Nginx Service
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-      - ./docker/nginx/certs/:/etc/nginx/certs/
+    restart: unless-stopped
+    tty: true
     networks:
       - app-network
 
   #MySQL Service
   db:
-    image: mysql:5.7
     container_name: db
-    restart: unless-stopped
-    tty: true
+    image: mysql
+    restart: always
     ports:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: bvk_mvc
-      MYSQL_USER: root
+      MYSQL_USER: admincha
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
-      - "./docker/mysql/dbdata/:/var/lib/mysql/"
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/dbdata/:/var/lib/mysql/
+      - ./docker/mysql/my.cnf:/etc/mysql/mysql.conf.d/my.cnf
     networks:
       - app-network
 
@@ -65,6 +49,8 @@ services:
 networks:
   app-network:
     driver: bridge
+
 #Volumes
 volumes:
-  dbdata: { driver: local }
+  dbdata:
+    driver: local
